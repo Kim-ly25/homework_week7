@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:nested/nested.dart';
+import 'ui/screens/home/home_screen.dart';
 import 'ui/screens/favorite/favorite_screen.dart';
 import 'ui/screens/library/library_screen.dart';
 import 'ui/screens/settings/settings_screen.dart';
@@ -11,16 +12,8 @@ import 'ui/theme/theme.dart';
 /// Launch the application with the given list of providers
 ///
 void mainCommon(List<SingleChildWidget> providers) {
-  runApp(
-    MultiProvider(
-      providers: providers,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: MyApp()),
-    ),
-  );
+  runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
- 
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -30,22 +23,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int _currentIndex = 1;
+  int _currentIndex = 0; // Home first
 
-  final List<Widget> _pages = [LibraryScreen(), FavoriteScreen(), SettingsScreen()];
+  final List<Widget> _pages = const [HomeScreen(),LibraryScreen(),FavoriteScreen(),SettingsScreen(),];
 
   @override
   Widget build(BuildContext context) {
-    
-    // 1- Get the globbal settings state
-    AppSettingsState settingsState = context.read<AppSettingsState>();
- 
+    final settingsState = context.watch<AppSettingsState>();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: appTheme,
       home: Scaffold(
         body: _pages[_currentIndex],
-    
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
@@ -55,11 +45,12 @@ class _MyAppState extends State<MyApp> {
           },
           selectedItemColor: settingsState.theme.color,
           items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
               icon: Icon(Icons.library_music),
               label: 'Library',
             ),
-             BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(Icons.heart_broken),
               label: 'Favorites',
             ),

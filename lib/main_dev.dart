@@ -5,6 +5,8 @@ import 'main_common.dart';
 import 'data/repositories/settings/app_settings_repository_mock.dart';
 import 'data/repositories/songs/song_repository.dart';
 import 'data/repositories/songs/song_repository_mock.dart';
+import 'data/repositories/history/user_history_repository.dart';
+import 'data/repositories/history/user_history_repository_mock.dart';
 import 'ui/states/player_state.dart';
 import 'ui/states/settings_state.dart';
 
@@ -21,8 +23,10 @@ List<SingleChildWidget> get devProviders {
 
     // 3 - Inject the  app setting state
     ChangeNotifierProvider<AppSettingsState>(
-      create: (_) =>AppSettingsState(repository: appSettingsRepository)
-    ),
+      create: (_) =>AppSettingsState(repository: appSettingsRepository)),
+
+    // 4 - Inject the user history repository
+    Provider<UserHistoryRepository>(create: (_) => UserHistoryRepositoryMock()),
   ];
 }
 
