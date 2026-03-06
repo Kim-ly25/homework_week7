@@ -20,7 +20,7 @@ class HomeContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(child: Text("Home", style: AppTextStyles.heading)),
-          if (viewModel.recentSongs.isNotEmpty) ...[
+          if (viewModel.recentSongs.isNotEmpty) ...  [
             const SectionHeader(label: "Your recent songs"),
             ...viewModel.recentSongs.map(
               (song) => SongTile(
